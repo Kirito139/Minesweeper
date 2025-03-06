@@ -1,4 +1,44 @@
-# Gitignore for APCS Lowell repositories
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
 
-# Ignore compiled processing class files
-build-tmp/
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE-specific files
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Logs and databases
+*.log
+*.sqlite
+
+# OS-generated files
+._*
+.Spotlight-V100
+.Trashes
+
