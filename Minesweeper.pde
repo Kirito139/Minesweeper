@@ -1,50 +1,66 @@
 import de.bezier.guido.*;
 
-// Declare and initialize constants NUM_ROWS and NUM_COLS = 20
-private MSButton[][] buttons; // 2d array of minesweeper buttons
-private ArrayList <MSButton> mines; // ArrayList of just the minesweeper buttons that are mined
+int NUM_ROWS = 5;
+int NUM_COLS = 5;
+private MSButton[][] buttons;
+// ArrayList of just the minesweeper buttons that are mined:
+private ArrayList <MSButton> mines;
 
 void setup() {
     size(400, 400);
     textAlign(CENTER,CENTER);
-    
+
     // make the manager
     Interactive.make(this);
-    
-    // your code to initialize buttons goes here
+
+    buttons = new MSButton[NUM_ROWS][NUM_COLS];
+    mines = new ArrayList<MSButton>();
+    for (int i = 0; i < NUM_ROWS; i++) {
+        for (int j = 0; j < NUM_COLS; j++) {
+            buttons[i][j] = new MSButton(i, j);
+        }
+    }
     setMines();
 }
 
 public void setMines() {
-    // your code
+    int row = (int)(Math.random() * NUM_ROWS);
+    int col = (int)(Math.random() * NUM_COLS);
+    if (!mines.contains(buttons[row][col])) mines.add(buttons[row][col]);
 }
 
 public void draw() {
     background(0);
-    if (isWon() == true) displayWinningMessage();
+    if (isWon()) displayWinningMessage();
 }
 
 public boolean isWon() {
-    // your code here
+    // TODO
     return false;
 }
 
 public void displayLosingMessage() {
-    // your code here
+    // TODO
 }
 
 public void displayWinningMessage() {
-    // your code here
+    // TODO
 }
 
 public boolean isValid(int r, int c) {
-    // your code here
-    return false;
+    if (r >= 0 && r < NUM_ROWS && c >= 0 && c < NUM_COLS) return true;
+    else return false;
 }
 
 public int countMines(int row, int col) {
     int numMines = 0;
-    // your code here
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            if (isValid(row+i, col+j) && i != j) {
+                if (mines.contains(buttons[row+i][col+j])) numMines++;
+            }
+        }
+    }
     return numMines;
 }
 
@@ -53,12 +69,12 @@ public class MSButton {
     private float x, y, width, height;
     private boolean clicked, flagged;
     private String myLabel;
-    
+
     public MSButton (int row, int col) {
-        // width = 400/NUM_COLS;
-        // height = 400/NUM_ROWS;
+        width = 400 / NUM_COLS;
+        height = 400 / NUM_ROWS;
         myRow = row;
-        myCol = col; 
+        myCol = col;
         x = myCol * width;
         y = myRow * height;
         myLabel = "";
@@ -69,14 +85,20 @@ public class MSButton {
     // called by manager
     public void mousePressed() {
         clicked = true;
-        // your code here
+        if (mouseButton == RIGHT) flagged = !flagged;
+        if (!flagged) clicked = false;
+        else if (mines.contains(this)) displayLosingMessage();
+        else if (countMines(myRow, myCol) > 0) {
+            setLabel(countMines(myRow, myCol));
+        }
+        // else mousePressed(); // FIXME
     }
 
-    public void draw () {    
+    public void draw () {
         if (flagged)
             fill(0);
-        // else if( clicked && mines.contains(this) ) 
-        //     fill(255,0,0);
+        else if( clicked && mines.contains(this) ) 
+            fill(255,0,0);
         else if (clicked) fill(200);
         else fill(100);
 
@@ -97,4 +119,3 @@ public class MSButton {
         return flagged;
     }
 }
-
