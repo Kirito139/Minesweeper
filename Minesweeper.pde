@@ -1,8 +1,8 @@
 import de.bezier.guido.*;
 
-public int NUM_ROWS = 5;
-public int NUM_COLS = 5;
-public int NUM_MINES = 1;
+public int NUM_ROWS = 9;
+public int NUM_COLS = 9;
+public int NUM_MINES = 10;
 private MSButton[][] buttons; // 2d array of minesweeper buttons
 private ArrayList <MSButton> mines; // ArrayList of just the minesweeper buttons that are mined
 public enum GameState {READY, PLAYING, WON, LOST};
@@ -51,9 +51,11 @@ public void draw() {
 
   if (state == GameState.WON) { // if WON, display winning message
     displayWinningMessage();
-  } else if (state == GameState.LOST) { // if lost, display losing message
+  }
+  else if (state == GameState.LOST) { // if lost, display losing message
     displayLosingMessage();
-  } else if (state == GameState.PLAYING) { // if playing, update buttons
+  }
+  else if (state == GameState.PLAYING) { // if playing, update buttons
 
     for (int r = 0; r < NUM_ROWS; r++) {
       for (int c = 0; c < NUM_COLS; c++) {
@@ -64,7 +66,8 @@ public void draw() {
     if (isWon()) { // if won, change state to WON
       state = GameState.WON;
     }
-  } else if (state == GameState.READY) { // if ready, reset the game
+  }
+  else if (state == GameState.READY) { // if ready, reset the game
     mines = new ArrayList<MSButton>();
 
     for (int r = 0; r < NUM_ROWS; r++) {
@@ -82,18 +85,23 @@ public void draw() {
 
 
 public boolean isWon() {
-  for (MSButton m : mines) {
-    if (!m.isFlagged()) {
-      return false;
+  for (int r = 0; r < NUM_ROWS; r++) {
+    for (int c = 0; c < NUM_COLS; c++) {
+      if (!buttons[r][c].clicked && !mines.contains(buttons[r][c])) {
+        return false;
+      }
     }
   }
-
   return true;
 }
 
 
 public void displayLosingMessage() {
-  // your code here
+  for (int r = 0; r < NUM_ROWS; r++) {
+    for (int c = 0; c < NUM_COLS; c++) {
+      buttons[r][c].draw();
+    }
+  }
 }
 
 
@@ -108,8 +116,12 @@ public void displayWinningMessage() {
 
 
 public boolean isValid(int r, int c) {
-  if (r >= 0 && r < NUM_ROWS && c >= 0 && c < NUM_COLS) return true;
-  else return false;
+  if (r >= 0 && r < NUM_ROWS && c >= 0 && c < NUM_COLS) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 
@@ -146,10 +158,18 @@ public class MSButton {
 
   // called by manager
   public void mousePressed() {
-    if (!flagged) clicked = true;
-    if (mouseButton == RIGHT) flagged = !flagged;
-    else if (mines.contains(this)) state = GameState.LOST;
-    else if (countMines(myRow, myCol) > 0) setLabel(countMines(myRow, myCol));
+    if (!flagged) {
+      clicked = true;
+    }
+    if (mouseButton == RIGHT) {
+      flagged = !flagged;
+    }
+    else if (mines.contains(this)) {
+      state = GameState.LOST;
+    }
+    else if (countMines(myRow, myCol) > 0) {
+      setLabel(countMines(myRow, myCol));
+    }
     else {
       for (int r = myRow - 1; r <= myRow + 1; r++) {
         for (int c = myCol - 1; c <= myCol + 1; c++) {
@@ -163,17 +183,38 @@ public class MSButton {
 
 
   public void draw () {
-
-    if (flagged) {
-      fill(0);
-    } else if (state == GameState.WON && mines.contains(this)) {
-      fill(0, 255, 0);
+    if (state == GameState.LOST) {
+      if (mines.contains(this)) {
+        if (flagged) { // if the button is mined and flagged
+          fill(#00ff00); // green
+        } else { // if the button is mined but not flagged
+          fill(#ff0000); // red
+        }
+      } else if (flagged) { // if the button is incorrectly flagged
+        fill(#ffa500); // orange
+      } else if (clicked) {
+        fill(200);
+      } else {
+        fill(150);
+      }
+    } else if (state == GameState.WON) {
+      if (mines.contains(this) && flagged) {
+        fill(#00ff00); // green
+      } else if (flagged) {
+        fill(#ffa500); // orange
+      } else if (clicked) {
+        fill(200);
+      } else {
+        fill(150);
+      }
+    } else if (flagged) {
+      fill(#ffa500); // orange
     } else if (clicked && mines.contains(this)) {
-      fill(255,0,0);
+      fill(#ff0000); // red
     } else if (clicked) {
       fill(200);
     } else {
-      fill(100);
+      fill(150);
     }
 
     rect(x, y, width, height);
@@ -195,7 +236,7 @@ public class MSButton {
   public boolean isFlagged() {
     return flagged;
   }
-  
+
 
   public void unFlag() {
     flagged = false;
