@@ -1,10 +1,10 @@
-// TODO: fix text display
 import de.bezier.guido.*;
 
 public int NUM_ROWS = 9;
 public int NUM_COLS = 9;
 public int NUM_MINES = 10;
 public int cursorX, cursorY;
+private int flashCounter = 0;
 private MSButton[][] buttons; // 2d array of minesweeper buttons
 private ArrayList<MSButton> mines; // ArrayList of just the minesweeper buttons that are mined
 public enum GameState {READY, PLAYING, WON, LOST};
@@ -52,16 +52,15 @@ public void setMines() {
 public void draw() {
   background(0);
 
-  if (isWon()) { // if won, change state to WON
-    state = GameState.WON;
+  for (int r = 0; r < NUM_ROWS; r++) {
+    for (int c = 0; c < NUM_COLS; c++) {
+      buttons[r][c].draw();
+    }
   }
 
-  if (state == GameState.PLAYING) { // if playing, update buttons
-    for (int r = 0; r < NUM_ROWS; r++) {
-      for (int c = 0; c < NUM_COLS; c++) {
-        buttons[r][c].draw();
-      }
-    }
+  if (isWon()) { // if won, change state to WON
+    flashCounter = 0;
+    state = GameState.WON;
   }
 
   if (state == GameState.WON) { // if WON, display winning message
@@ -106,35 +105,43 @@ public boolean isWon() {
 }
 
 
-public void displayLosingMessage() {
-  for (int r = 0; r < NUM_ROWS; r++) {
-    for (int c = 0; c < NUM_COLS; c++) {
-      buttons[r][c].draw();
-    }
-  }
-  textSize(128);
-  fill(#00ffff);
-  text("GAME OVER", width / 2, width / 2);
-  textSize(32);
-  fill(#d8bfd8);
-  text("press any key to play again", width / 2, width / 2 + 50);
-}
-
-
 public void displayWinningMessage() {
+  String[] winSequence = {"W", "I", "N", "WIN", "WIN"};
+  int index = (flashCounter / 30) % winSequence.length; // Change every 30 frames
+
   for (int r = 0; r < NUM_ROWS; r++) {
     for (int c = 0; c < NUM_COLS; c++) {
-      buttons[r][c].unFlag();
-      buttons[r][c].draw();
+      buttons[r][c].setLabel(winSequence[index]);
     }
   }
-  textSize(128);
-  fill(#00ffff);
-  text("YOU WON!", width / 2, width / 2);
-  textSize(32);
-  fill(#d8bfd8);
-  text("press any key to play again", width / 2, width / 2 + 50);
+
+  if (flashCounter < 180) { // Flash for 6 cycles (6 * 30 frames)
+    flashCounter++;
+  }
 }
+
+
+public void displayLosingMessage() {
+  String[] loseSequence = {
+  "   G\n    ", "  G \n    ", " G  \n    ", "G   \n    ", "G  A\n    ",
+  "G A \n    ", "GA M\n    ", "GAM \n    ", "GAME\n    ", "GAME\n   O",
+  "GAME\n  O ", "GAME\n O  ", "GAME\nO   ", "GAME\nO  V", "GAME\nOV  ",
+  "GAME\nOVE ", "GAME\nOVER", "GAME\nOVER", "", "GAME\nOVER", "GAME\nOVER", "",
+  "GAME\nOVER"
+  };
+  int index = (flashCounter / 30) % loseSequence.length;
+
+  for (int r = 0; r < NUM_ROWS; r++) {
+    for (int c = 0; c < NUM_COLS; c++) {
+      buttons[r][c].setLabel(loseSequence[index]);
+    }
+  }
+
+  if (flashCounter < 460) {
+    flashCounter++;
+  }
+}
+
 
 
 public boolean isValid(int r, int c) {
@@ -201,6 +208,7 @@ public class MSButton {
     } else if (!flagged) {
       clicked = true;
       if (mines.contains(this)) {
+        flashCounter = 0;
         state = GameState.LOST;
       } else if (countMines(myRow, myCol) > 0) {
         setLabel(countMines(myRow, myCol));
@@ -254,9 +262,9 @@ public class MSButton {
       }
     }
 
-    rect(x, y, width, height);
+    rect(x+width/9, y+width/9, width-width/9, height-height/9);
     fill(0);
-    text(myLabel, x + width / 2, y + height / 2);
+    text(myLabel, x + 5 * width / 9, y + 5 * height / 9);
   }
 
 
