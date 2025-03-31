@@ -123,13 +123,13 @@ public void displayWinningMessage() {
 
 public void displayLosingMessage() {
   String[] loseSequence = {
-  "   G\n    ", "  G \n    ", " G  \n    ", "G   \n    ", "G  A\n    ",
-  "G A \n    ", "GA M\n    ", "GAM \n    ", "GAME\n    ", "GAME\n   O",
-  "GAME\n  O ", "GAME\n O  ", "GAME\nO   ", "GAME\nO  V", "GAME\nOV  ",
-  "GAME\nOVE ", "GAME\nOVER", "GAME\nOVER", "", "GAME\nOVER", "GAME\nOVER", "",
-  "GAME\nOVER"
+  "≈iCz\n7oP^", "!2[a\nJ}∆Ω", "G¥&F\nåß$v", "Gﬂ_+\nTª#¶", "GA•∞\nB|@e",
+  "GA◊e\n2™`~", "GAM‚\n<%Hq", "GAM›\n*&xd", "GAME\n⁄/X«", "GAME\n˝Ò¨",
+  "GAME\nOÇ√Œ", "GAMe\nO¢as", "GaME\nOV¡≥", "GAME\nOV 8", "GAME\nOVE§",
+  "G@ME\nOVEﬁ", "GAME\n0VER", "GAME\nOVER", "GAME\nOVER", "", "", "GAME\nOVER",
+  "GAME\nOVER", "", "", "GAME\nOVER"
   };
-  int index = (flashCounter / 30) % loseSequence.length;
+  int index = (flashCounter / ((int)(Math.random() * 5)+10)) % loseSequence.length;
 
   for (int r = 0; r < NUM_ROWS; r++) {
     for (int c = 0; c < NUM_COLS; c++) {
