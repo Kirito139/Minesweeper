@@ -1,8 +1,8 @@
 import de.bezier.guido.*;
 
-public int NUM_ROWS = 9;
-public int NUM_COLS = 9;
-public int NUM_MINES = 10;
+public int NUM_ROWS = 4;
+public int NUM_COLS = 4;
+public int NUM_MINES = 2;
 public int cursorX, cursorY;
 private int flashCounter = 0;
 private MSButton[][] buttons; // 2d array of minesweeper buttons
@@ -126,10 +126,10 @@ public void displayLosingMessage() {
   "≈iCz\n7oP^", "!2[a\nJ}∆Ω", "G¥&F\nåß$v", "Gﬂ_+\nTª#¶", "GA•∞\nB|@e",
   "GA◊e\n2™`~", "GAM‚\n<%Hq", "GAM›\n*&xd", "GAME\n⁄/X«", "GAME\n˝Ò¨",
   "GAME\nOÇ√Œ", "GAMe\nO¢as", "GaME\nOV¡≥", "GAME\nOV 8", "GAME\nOVE§",
-  "G@ME\nOVEﬁ", "GAME\n0VER", "GAME\nOVER", "GAME\nOVER", "", "", "GAME\nOVER",
-  "GAME\nOVER", "", "", "GAME\nOVER"
+  "G@ME\nOVEﬁ", "GAME\n0VER", "GAM3\nOVEr", "GAME\nO√ER", "", "", "GAME\nOVER",
+  "gAWE\nOVER", "", "", "GAME\nOVER"
   };
-  int index = (flashCounter / ((int)(Math.random() * 5)+10)) % loseSequence.length;
+  int index = (flashCounter / ((int)(Math.random() * 5)+25)) % loseSequence.length;
 
   for (int r = 0; r < NUM_ROWS; r++) {
     for (int c = 0; c < NUM_COLS; c++) {
@@ -154,17 +154,17 @@ public void keyPressed() {
       state = GameState.READY;
     }
   } else if (state == GameState.PLAYING) {
-    if (key == 'h') {
+    if (keyCode == LEFT) {
       cursorX = max(0, cursorX - 1);
-    } else if (key == 'j') {
+    } else if (keyCode == DOWN) {
       cursorY = min(NUM_ROWS - 1, cursorY + 1);
-    } else if (key == 'k') {
+    } else if (keyCode == UP) {
       cursorY = max(0, cursorY - 1);
-    } else if (key == 'l') {
+    } else if (keyCode == RIGHT) {
       cursorX = min(NUM_COLS - 1, cursorX + 1);
-    } else if (key == 'z') {
-      buttons[cursorY][cursorX].mousePressed();
     } else if (key == 'x') {
+      buttons[cursorY][cursorX].mousePressed();
+    } else if (key == 'z') {
       buttons[cursorY][cursorX].flagged = !buttons[cursorY][cursorX].flagged;
     }
   }
