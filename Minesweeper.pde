@@ -7,15 +7,16 @@ public int cursorX, cursorY;
 private int flashCounter = 0;
 private MSButton[][] buttons; // 2d array of minesweeper buttons
 private ArrayList<MSButton> mines; // ArrayList of just the minesweeper buttons that are mined
-public enum GameState {READY, PLAYING, WON, LOST};
-GameState state;
+// public enum GameState {READY, PLAYING, WON, LOST};
+// GameState state;
+public char state = 'R';
 
 
 void setup() {
   size(400, 400);
   textAlign(CENTER, CENTER);
   cursorX = cursorY = 0;
-  state = GameState.PLAYING;
+  // state = GameState.PLAYING;
   mines = new ArrayList<MSButton>();
   buttons = new MSButton[NUM_ROWS][NUM_COLS];
 
@@ -60,36 +61,38 @@ public void draw() {
 
   if (isWon()) { // if won, change state to WON
     flashCounter = 0;
-    state = GameState.WON;
+    // state = GameState.WON;
+    state = 'W';
   }
 
-  if (state == GameState.WON) { // if WON, display winning message
+  if (state == 'W') { // if WON, display winning message
     displayWinningMessage();
   }
 
-  if (state == GameState.LOST) { // if lost, display losing message
+  if (state == 'L') { // if lost, display losing message
     displayLosingMessage();
   }
 
-  if (state == GameState.PLAYING) {
+  if (state == 'P') {
     fill(#00ffff);
     rect(cursorX * 400 / NUM_COLS, cursorY * 400 / NUM_ROWS, 400 / NUM_COLS, 400 / NUM_ROWS);
   }
 
-  // if (state == GameState.READY) { // if ready, reset the game
-  //   mines = new ArrayList<MSButton>();
+  if (state == 'R') { // if ready, reset the game
+    mines = new ArrayList<MSButton>();
 
-  //   for (int r = 0; r < NUM_ROWS; r++) {
-  //     for (int c = 0; c < NUM_COLS; c++) {
-  //       buttons[r][c].clicked = false;
-  //       buttons[r][c].flagged = false;
-  //     }
-  //   }
+    for (int r = 0; r < NUM_ROWS; r++) {
+      for (int c = 0; c < NUM_COLS; c++) {
+        buttons[r][c].clicked = false;
+        buttons[r][c].flagged = false;
+      }
+    }
 
-  //   for (int i = 0; i < NUM_MINES; i++) {
-  //     setMines();
-  //   }
-  // }
+    for (int i = 0; i < NUM_MINES; i++) {
+      setMines();
+    }
+  }
+  state = 'P';
 }
 
 
@@ -149,11 +152,11 @@ public boolean isValid(int r, int c) {
 }
 
 public void keyPressed() {
-  if (state == GameState.WON || state == GameState.LOST) {
+  if (state == 'W' || state == 'L') {
     if (key == ' ') {
-      state = GameState.READY;
+      state = 'R';
     }
-  } else if (state == GameState.PLAYING) {
+  } else if (state == 'P') {
     if (keyCode == LEFT) {
       cursorX = max(0, cursorX - 1);
     } else if (keyCode == DOWN) {
@@ -209,7 +212,7 @@ public class MSButton {
       clicked = true;
       if (mines.contains(this)) {
         flashCounter = 0;
-        state = GameState.LOST;
+        state = 'L';
       } else if (countMines(myRow, myCol) > 0) {
         setLabel(countMines(myRow, myCol));
       } else {
@@ -226,7 +229,7 @@ public class MSButton {
 
 
   public void draw() {
-    if (state == GameState.LOST) {
+    if (state == 'L') {
       if (mines.contains(this)) {
         if (flagged) { // if the button is mined and flagged
           fill(#00ff00); // green
@@ -240,7 +243,7 @@ public class MSButton {
       } else {
         fill(150);
       }
-    } else if (state == GameState.WON) {
+    } else if (state == 'W') {
       if (mines.contains(this) && flagged) {
         fill(#00ff00); // green
       } else if (flagged) {
@@ -250,7 +253,7 @@ public class MSButton {
       } else {
         fill(150);
       }
-    } else if (state == GameState.PLAYING) {
+    } else if (state == 'P') {
       if (flagged) {
         fill(#ffa500); // orange
       } else if (clicked && mines.contains(this)) {
