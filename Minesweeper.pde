@@ -1,8 +1,8 @@
 import de.bezier.guido.*;
 
-public int NUM_ROWS = 4;
-public int NUM_COLS = 4;
-public int NUM_MINES = 2;
+public int NUM_ROWS = 10;
+public int NUM_COLS = 10;
+public int NUM_MINES = 9;
 public int cursorX, cursorY;
 private int flashCounter = 0;
 public int startCount = 0;
@@ -14,7 +14,7 @@ public boolean foo = true;
 
 
 void setup() {
-    size(400, 400);
+    size(720, 720);
     textAlign(CENTER, CENTER);
     frameRate(60);
     cursorX = cursorY = 0;
@@ -70,7 +70,7 @@ public void draw() {
     if (state == 'P') {
         newGame = false;
         fill(#00ffff);
-        rect(cursorX * 400 / NUM_COLS, cursorY * 400 / NUM_ROWS, 400 / NUM_COLS, 400 / NUM_ROWS);
+        rect(cursorX * 720 / NUM_COLS, cursorY * 720 / NUM_ROWS, 720 / NUM_COLS, 720 / NUM_ROWS);
     }
 
     if (state == 'R') { // if ready, reset the game
@@ -189,6 +189,9 @@ public void keyPressed() {
             buttons[cursorY][cursorX].mousePressed();
         } else if (key == 'z') {
             buttons[cursorY][cursorX].flagged = !buttons[cursorY][cursorX].flagged;
+            if (!buttons[cursorY][cursorX].flagged) {
+                buttons[cursorY][cursorX].myLabel = "";
+            }
         }
     }
 }
@@ -212,8 +215,8 @@ public class MSButton {
 
 
     public MSButton(int row, int col) {
-        width = 400 / NUM_COLS;
-        height = 400 / NUM_ROWS;
+        width = 720 / NUM_COLS;
+        height = 720 / NUM_ROWS;
         myRow = row;
         myCol = col;
         x = myCol * width;
@@ -228,6 +231,7 @@ public class MSButton {
     public void mousePressed() {
         if (mouseButton == RIGHT) {
             flagged = !flagged;
+            if (!flagged) myLabel = "";
         } else if (!flagged) {
             clicked = true;
             if (mines.contains(this)) {
@@ -276,8 +280,10 @@ public class MSButton {
         } else {
             if (flagged) {
                 fill(#ffa500); // orange
+                myLabel = "⚑";
             } else if (clicked && mines.contains(this)) {
                 fill(#ff0000); // red
+                myLabel = "☼";
             } else if (clicked) {
                 fill(200);
             } else {
