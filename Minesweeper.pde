@@ -74,7 +74,6 @@ public void draw() {
     }
 
     if (state == 'R') { // if ready, reset the game
-        System.out.println("Ready");
 
         if (newGame) {
             for (int r = 0; r < NUM_ROWS; r++) {
@@ -104,7 +103,6 @@ public void draw() {
         }
 
         if (mousePressed || keyPressed && key == ' ') {
-            System.out.println("Spacebar pressed, ready");
             for (int r = 0; r < NUM_ROWS; r++) {
                 for (int c = 0; c < NUM_COLS; c++) {
                     buttons[r][c].myLabel = "";
@@ -126,13 +124,11 @@ public boolean isWon() {
         }
     }
     state = 'W';
-    System.out.println("You won!");
     return true;
 }
 
 
 public void displayWinningMessage() {
-    System.out.println("Win flash" + flashCounter);
     String[] winSequence = {"W", "I", "N", "", "WIN", "", "WIN"};
     int index = (flashCounter / 30) % winSequence.length; // Change every 30 frames
 
@@ -149,7 +145,6 @@ public void displayWinningMessage() {
 
 
 public void displayLosingMessage() {
-    System.out.println("Lose flash" + flashCounter);
     String[] loseSequence = {
         "≈iCz\n7oP^", "!2[a\nJ}∆Ω", "G¥&F\nåß$v", "Gﬂ_+\nTª#¶", "GA•∞\nB|@e",
         "GA◊e\n2™`~", "GAM‚\n<%Hq", "GAM›\n*&xd", "GAME\n⁄/X«", "GAME\n˝Ò¨",
@@ -179,7 +174,6 @@ public boolean isValid(int r, int c) {
 public void keyPressed() {
     if (state == 'W' || state == 'L') {
         if (key == ' ') {
-            System.out.println("Spacebar pressed");
             state = 'R';
         }
     } else if (state == 'P') {
