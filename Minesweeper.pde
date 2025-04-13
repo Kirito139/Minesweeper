@@ -78,7 +78,7 @@ public void draw() {
         if (newGame) {
             for (int r = 0; r < NUM_ROWS; r++) {
                 for (int c = 0; c < NUM_COLS; c++) {
-                    if (foo) buttons[r][c].myLabel = "CLICK";
+                    if (foo) buttons[r][c].myLabel = "Click!";
                     else buttons[r][c].myLabel = "";
                 }
             }
