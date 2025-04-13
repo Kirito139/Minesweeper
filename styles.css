@@ -1,7 +1,16 @@
+@font-face {
+    font-family: 'Silkscreen';
+    src: url('https://kirito139.github.io/stash/fonts/slkscr.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Silkscreen';
+    src: url('https://kirito139.github.io/stash/fonts/slkscrb.ttf') format('truetype');
+    font-weight: bold;
+    font-style: bold;
+}
 body {
-    background-color: rgb(200,200,200);
-    color: rgb(0,0,0);
-    font-family: "Open Sans", sans-serif;
     text-align: center;
 }
 
@@ -12,10 +21,16 @@ body {
 }
 
 header {
-	
+    text-align: center;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    
 }
 
 footer {
-	font-style: italic;
-	font-size: 90%;
+    text-align: center;
+    font-size: 8px;
+    font-family: Silkscreen;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
 }
