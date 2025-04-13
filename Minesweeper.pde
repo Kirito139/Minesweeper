@@ -232,7 +232,7 @@ public class MSButton {
         if (mouseButton == RIGHT) {
             flagged = !flagged;
             if (!flagged) myLabel = "";
-        } else if (!flagged) {
+        } else if (!flagged && !newGame) {
             clicked = true;
             if (mines.contains(this)) {
                 flashCounter = 0;
