@@ -283,7 +283,6 @@ public class MSButton {
                 myLabel = "⚑";
             } else if (clicked && mines.contains(this)) {
                 fill(#ff0000); // red
-                myLabel = "☼";
             } else if (clicked) {
                 fill(200);
             } else {
