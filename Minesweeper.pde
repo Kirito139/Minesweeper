@@ -53,7 +53,7 @@ public void setMines() {
 
 
 public void draw() {
-    background(#964B00);
+    background(#A89881);
 
     for (int r = 0; r < NUM_ROWS; r++) {
         for (int c = 0; c < NUM_COLS; c++) {

@@ -10,8 +10,46 @@
     font-weight: bold;
     font-style: bold;
 }
+@font-face {
+    font-family: 'Terminess Nerd Font';
+    src: url('https://kirito139.github.io/stash/fonts/TerminessNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Terminess Nerd Font';
+    src: url('https://kirito139.github.io/stash/fonts/TerminessNerdFont-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Terminess Nerd Font';
+    src: url('https://kirito139.github.io/stash/fonts/TerminessNerdFont-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Terminess Nerd Font';
+    src: url('https://kirito139.github.io/stash/fonts/TerminessNerdFont-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ProggyClean Nerd Font';
+    src: url('https://kirito139.github.io/stash/fonts/ProggyCleanNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 body {
     text-align: center;
+    font-family: 'ProggyClean Nerd Font';
+    font-size: 16px;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures the page takes up the full viewport height */
+    margin: 0; /* Removes default margin */
 }
 
 #content {
@@ -20,7 +58,12 @@ body {
     margin-right: auto
 }
 
+main {
+    flex: 1; /* Allows the main content to grow and take up remaining space */
+}
 header {
+    font-family: Terminess Nerd Font;
+    font-size: 32px;
     text-align: center;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: unset;
@@ -33,4 +76,11 @@ footer {
     font-family: Silkscreen;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: unset;
+    font-smooth: never;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neigbor;
+    color: inherit;
 }
